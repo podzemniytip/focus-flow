@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus Flow - Demo & Test Page</title>
+    <title>Focus Flow - Neural Productivity System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,59 +15,258 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
             min-height: 100vh;
             padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated tech grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 212, 255, 0.03) 2px,
+                    rgba(0, 212, 255, 0.03) 3px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 212, 255, 0.03) 2px,
+                    rgba(0, 212, 255, 0.03) 3px
+                );
+            background-size: 50px 50px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Glowing orbs */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, 50px); }
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
-            color: white;
+            color: #00d4ff;
             margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: rgba(17, 17, 17, 0.8);
+            border: 2px solid #00d4ff;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 40px rgba(0, 212, 255, 0.3),
+                inset 0 0 40px rgba(0, 212, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #ff6b35, #00d4ff);
+            animation: borderFlow 3s linear infinite;
+        }
+        
+        @keyframes borderFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .header h1 {
-            font-size: 3rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, #00d4ff, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.7));
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.7)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 212, 255, 1)); }
         }
 
         .header p {
             font-size: 1.2rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
             opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: #ff6b35;
+            margin-top: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(17, 17, 17, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: scanline 2s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .stat-box:hover {
+            border-color: #00d4ff;
+            box-shadow: 
+                0 0 30px rgba(0, 212, 255, 0.4),
+                inset 0 0 30px rgba(0, 212, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.7));
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
         }
 
         .demo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
 
         .demo-card {
-            background: white;
+            background: rgba(17, 17, 17, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.3);
             border-radius: 1rem;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: top 0.5s ease;
+        }
+        
+        .demo-card:hover::before {
+            top: 100%;
         }
 
         .demo-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            border-color: #00d4ff;
+            box-shadow: 
+                0 10px 40px rgba(0, 212, 255, 0.3),
+                inset 0 0 30px rgba(0, 212, 255, 0.1);
         }
 
         .demo-card h2 {
-            color: #6366f1;
+            color: #00d4ff;
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+        
+        .demo-card h2::before {
+            content: '◆';
+            color: #ff6b35;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.7));
+        }
+        
+        .demo-card p {
+            color: #ffffff;
+            opacity: 0.8;
+            margin-bottom: 1rem;
         }
 
         .demo-card ul {
@@ -73,39 +275,86 @@
         }
 
         .demo-card li {
-            padding: 0.5rem 0;
+            padding: 0.75rem 0;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            color: #ffffff;
+            opacity: 0.9;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .demo-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .demo-card li:hover {
+            padding-left: 0.5rem;
+            opacity: 1;
         }
 
         .demo-card li::before {
-            content: '✓';
-            color: #10b981;
+            content: '▸';
+            color: #ff6b35;
             font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
         }
 
         .iframe-container {
-            background: white;
-            border-radius: 1rem;
+            background: rgba(17, 17, 17, 0.9);
+            border: 2px solid #00d4ff;
+            border-radius: 1.5rem;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 2rem;
+            box-shadow: 
+                0 20px 60px rgba(0, 212, 255, 0.2),
+                inset 0 0 40px rgba(0, 212, 255, 0.05);
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
         }
 
         .iframe-container h2 {
-            color: #6366f1;
-            margin-bottom: 1rem;
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
             text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.7);
+        }
+        
+        .iframe-container p {
+            text-align: center;
+            color: #ffffff;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
         }
 
         .device-frame {
             max-width: 400px;
             margin: 0 auto;
-            border: 16px solid #1e293b;
-            border-radius: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 8px solid #00d4ff;
+            border-radius: 2.5rem;
+            box-shadow: 
+                0 0 40px rgba(0, 212, 255, 0.6),
+                inset 0 0 20px rgba(0, 212, 255, 0.1);
             overflow: hidden;
+            position: relative;
+        }
+        
+        .device-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #111111;
+            border-radius: 2px;
+            z-index: 10;
         }
 
         iframe {
@@ -113,19 +362,44 @@
             height: 700px;
             border: none;
             display: block;
+            background: #000000;
         }
 
         .action-section {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(17, 17, 17, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            box-shadow: 
+                0 10px 40px rgba(0, 212, 255, 0.2),
+                inset 0 0 40px rgba(0, 212, 255, 0.05);
             text-align: center;
+            backdrop-filter: blur(10px);
         }
 
         .action-section h2 {
-            color: #6366f1;
+            color: #00d4ff;
             margin-bottom: 1rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.7);
+        }
+        
+        .action-section h3 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 107, 53, 0.7);
+        }
+        
+        .action-section p {
+            color: #ffffff;
+            opacity: 0.8;
+            margin: 1rem 0;
         }
 
         .button-group {
@@ -133,72 +407,189 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .btn {
-            padding: 1rem 2rem;
-            border: none;
+            padding: 1.25rem 2.5rem;
+            border: 2px solid #00d4ff;
             border-radius: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .btn > * {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: white;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 107, 53, 0.1));
+            color: #ffffff;
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 
+                0 0 40px rgba(0, 212, 255, 0.7),
+                inset 0 0 30px rgba(0, 212, 255, 0.2);
+            border-color: #ff6b35;
         }
 
         .btn-secondary {
-            background: linear-gradient(135deg, #ec4899, #d946ef);
-            color: white;
+            background: rgba(17, 17, 17, 0.8);
+            color: #ff6b35;
+            border-color: #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 
+                0 0 40px rgba(255, 107, 53, 0.6),
+                inset 0 0 30px rgba(255, 107, 53, 0.1);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .btn-success:hover {
+            box-shadow: 
+                0 0 40px rgba(0, 255, 136, 0.6),
+                inset 0 0 30px rgba(0, 255, 136, 0.1);
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
         }
 
-        .stats-grid {
+        .info-section {
+            background: rgba(17, 17, 17, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-section code {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00d4ff;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            display: block;
+            color: #00d4ff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            margin: 1rem 0;
+            box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+        
+        .command-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1rem;
-            margin: 2rem 0;
+            text-align: left;
         }
-
-        .stat-box {
-            text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        
+        .command-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-left: 4px solid #ff6b35;
+            padding: 1.25rem;
             border-radius: 0.75rem;
+            transition: all 0.3s ease;
         }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        .command-box:hover {
+            border-color: #00d4ff;
+            box-shadow: 
+                0 0 20px rgba(0, 212, 255, 0.3),
+                inset 0 0 20px rgba(0, 212, 255, 0.05);
+            transform: translateX(5px);
         }
-
-        .stat-label {
+        
+        .command-box strong {
+            color: #ff6b35;
+            display: block;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             font-size: 0.9rem;
-            color: #64748b;
-            margin-top: 0.5rem;
+        }
+        
+        .command-box p {
+            color: #ffffff;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-links a {
+            color: #00d4ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: #ff6b35;
+            border-color: #ff6b35;
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
+        }
+        
+        .footer-links .divider {
+            color: rgba(255, 255, 255, 0.2);
         }
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
+                letter-spacing: 4px;
             }
 
             .demo-grid {
@@ -206,11 +597,15 @@
             }
 
             .device-frame {
-                border-width: 8px;
+                border-width: 6px;
             }
 
             iframe {
                 height: 600px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -218,63 +613,64 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⚡ Focus Flow</h1>
-            <p>Pomodoro Timer + Habit Tracker + Productivity Stats</p>
-            <p style="font-size: 1rem; margin-top: 0.5rem; opacity: 0.8;">
-                For Google AI Edge Gallery · Built with JavaScript + WebView
+            <h1>◢ FOCUS FLOW ◣</h1>
+            <p>◤ NEURAL PRODUCTIVITY SYSTEM ◥</p>
+            <p class="subtitle">POMODORO · HABITS · GOALS · STATISTICS</p>
+            <p class="subtitle" style="margin-top: 0.5rem; color: #00d4ff;">
+                For Google AI Edge Gallery · JavaScript + WebView · 100% Offline
             </p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-box">
-                <div class="stat-value">⏱️</div>
+                <div class="stat-value">◉</div>
                 <div class="stat-label">Pomodoro Timer</div>
             </div>
             <div class="stat-box">
-                <div class="stat-value">✅</div>
+                <div class="stat-value">◈</div>
                 <div class="stat-label">Habit Tracker</div>
             </div>
             <div class="stat-box">
-                <div class="stat-value">🎯</div>
+                <div class="stat-value">◆</div>
                 <div class="stat-label">Daily Goals</div>
             </div>
             <div class="stat-box">
-                <div class="stat-value">📊</div>
+                <div class="stat-value">◢</div>
                 <div class="stat-label">Statistics</div>
             </div>
         </div>
 
         <div class="demo-grid">
             <div class="demo-card">
-                <h2>⏱️ Pomodoro Timer</h2>
+                <h2>◉ Pomodoro Timer</h2>
                 <p>Stay focused with customizable timer durations</p>
                 <ul>
                     <li>15, 25, 45, 60 minute presets</li>
-                    <li>Beautiful circular progress</li>
-                    <li>Audio notifications</li>
-                    <li>Pause/resume support</li>
+                    <li>Circular progress with neon glow</li>
+                    <li>Audio notifications on completion</li>
+                    <li>Pause/resume functionality</li>
                     <li>Focus & break modes</li>
                 </ul>
             </div>
 
             <div class="demo-card">
-                <h2>✅ Habit Tracker</h2>
+                <h2>◈ Habit Tracker</h2>
                 <p>Build consistency with daily habit tracking</p>
                 <ul>
                     <li>Track unlimited habits</li>
-                    <li>Visual streak badges (🔥)</li>
+                    <li>Visual streak badges with glow</li>
                     <li>Daily check-off system</li>
                     <li>Auto-reset at midnight</li>
-                    <li>Motivational feedback</li>
+                    <li>Pulse animations on completion</li>
                 </ul>
             </div>
 
             <div class="demo-card">
-                <h2>🎯 Daily Goals</h2>
+                <h2>◆ Daily Goals</h2>
                 <p>Organize and complete your daily objectives</p>
                 <ul>
                     <li>Add unlimited goals</li>
-                    <li>Visual progress bar</li>
+                    <li>Animated progress bar</li>
                     <li>Quick completion toggle</li>
                     <li>Fresh start each day</li>
                     <li>Achievement tracking</li>
@@ -282,136 +678,142 @@
             </div>
 
             <div class="demo-card">
-                <h2>📊 Statistics</h2>
+                <h2>◢ Statistics</h2>
                 <p>Track your productivity over time</p>
                 <ul>
                     <li>Total focus sessions</li>
                     <li>Minutes tracked</li>
                     <li>Day streak counter</li>
                     <li>Weekly activity chart</li>
-                    <li>Goals completed</li>
+                    <li>Goals completed counter</li>
                 </ul>
             </div>
 
             <div class="demo-card">
-                <h2>🎨 Beautiful Design</h2>
-                <p>Modern UI with smooth animations</p>
+                <h2>◣ High-Tech Design</h2>
+                <p>Cyberpunk-inspired UI with neon effects</p>
                 <ul>
-                    <li>Gradient color scheme</li>
-                    <li>Dark mode support</li>
-                    <li>Mobile-optimized</li>
-                    <li>Touch-friendly</li>
+                    <li>Electric Blue + Neon Orange</li>
+                    <li>Deep black background</li>
+                    <li>Glowing borders and shadows</li>
+                    <li>Tech grid animations</li>
                     <li>Smooth transitions</li>
                 </ul>
             </div>
 
             <div class="demo-card">
-                <h2>💾 Offline First</h2>
+                <h2>◤ Privacy First</h2>
                 <p>All your data stays on your device</p>
                 <ul>
                     <li>100% offline capable</li>
                     <li>localStorage persistence</li>
                     <li>No cloud sync needed</li>
-                    <li>Privacy focused</li>
+                    <li>Zero tracking or analytics</li>
                     <li>Fast & responsive</li>
                 </ul>
             </div>
 
             <div class="demo-card">
-                <h2>🐦 Social Sharing</h2>
-                <p>Share your productivity wins</p>
+                <h2>⚡ Social Sharing</h2>
+                <p>Built-in viral growth mechanism</p>
                 <ul>
                     <li>One-click X (Twitter) sharing</li>
-                    <li>Celebrate milestones</li>
-                    <li>Inspire your followers</li>
-                    <li>Support the creator</li>
-                    <li>Optional & non-intrusive</li>
+                    <li>Appears after first session</li>
+                    <li>Easy skip button</li>
+                    <li>Auto-mentions @ChainZenit</li>
+                    <li>3 random tweet variations</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>🎮 Interactive</h2>
+                <p>Touch-optimized for mobile devices</p>
+                <ul>
+                    <li>Gesture-friendly controls</li>
+                    <li>Haptic feedback (Android)</li>
+                    <li>Smooth animations (60fps)</li>
+                    <li>Responsive layout</li>
+                    <li>Tab navigation</li>
                 </ul>
             </div>
         </div>
 
         <div class="iframe-container">
-            <h2>🖥️ Live Demo</h2>
-            <p style="text-align: center; margin-bottom: 1.5rem; color: #64748b;">
-                Try it right now in your browser!
-            </p>
+            <h2>◢ LIVE DEMO ◣</h2>
+            <p>Try it right now in your browser!</p>
             <div class="device-frame">
                 <iframe src="assets/webview.html" title="Focus Flow Demo"></iframe>
             </div>
         </div>
 
         <div class="action-section">
-            <h2>🚀 Ready to Get Started?</h2>
-            <p style="color: #64748b; margin: 1rem 0;">
+            <h2>◢ READY TO LAUNCH ◣</h2>
+            <p style="margin: 1.5rem 0;">
                 Install Focus Flow in Google AI Edge Gallery and boost your productivity!
             </p>
             <div class="button-group">
                 <a href="https://github.com/google-ai-edge/gallery" class="btn btn-primary" target="_blank">
-                    📱 Get AI Edge Gallery
+                    <span>◉</span> Get AI Edge Gallery
                 </a>
                 <a href="README.md" class="btn btn-secondary">
-                    📖 Read Documentation
+                    <span>◈</span> Documentation
                 </a>
-                <a href="QUICKSTART.md" class="btn btn-success">
-                    ⚡ Quick Start Guide
+                <a href="https://github.com/podzemniytip/focus-flow" class="btn btn-success" target="_blank">
+                    <span>◆</span> GitHub Repo
                 </a>
             </div>
 
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
-                <h3 style="color: #6366f1; margin-bottom: 1rem;">Installation Methods</h3>
-                <div style="text-align: left; max-width: 600px; margin: 0 auto;">
-                    <p style="margin-bottom: 0.5rem;"><strong>📡 From URL:</strong></p>
-                    <code style="background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 0.5rem; display: block; margin-bottom: 1rem;">
-                        https://YOUR_USERNAME.github.io/focus-flow/
-                    </code>
+            <div class="info-section">
+                <h3>Installation Methods</h3>
+                <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                    <p style="margin-bottom: 0.5rem; color: #00d4ff; font-weight: 600;">◉ FROM URL:</p>
+                    <code>https://podzemniytip.github.io/focus-flow/</code>
 
-                    <p style="margin-bottom: 0.5rem;"><strong>💾 Local Install:</strong></p>
-                    <code style="background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 0.5rem; display: block;">
-                        adb push focus-flow/ /sdcard/Download/
-                    </code>
+                    <p style="margin: 1.5rem 0 0.5rem; color: #ff6b35; font-weight: 600;">◈ LOCAL INSTALL:</p>
+                    <code>adb push focus-flow/ /sdcard/Download/</code>
                 </div>
             </div>
 
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
-                <h3 style="color: #6366f1; margin-bottom: 1rem;">Voice Commands Examples</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; text-align: left;">
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
-                        <strong>🎯 Focus:</strong>
-                        <p style="margin-top: 0.5rem; color: #64748b;">"Start a 25 minute focus session"</p>
+            <div class="info-section">
+                <h3>Voice Commands</h3>
+                <div class="command-grid">
+                    <div class="command-box">
+                        <strong>◉ Focus</strong>
+                        <p>"Start a 25 minute focus session"</p>
                     </div>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
-                        <strong>☕ Break:</strong>
-                        <p style="margin-top: 0.5rem; color: #64748b;">"I need a 5 minute break"</p>
+                    <div class="command-box">
+                        <strong>◈ Break</strong>
+                        <p>"I need a 5 minute break"</p>
                     </div>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
-                        <strong>✅ Habits:</strong>
-                        <p style="margin-top: 0.5rem; color: #64748b;">"Show my daily habits"</p>
+                    <div class="command-box">
+                        <strong>◆ Habits</strong>
+                        <p>"Show my daily habits"</p>
                     </div>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
-                        <strong>📊 Stats:</strong>
-                        <p style="margin-top: 0.5rem; color: #64748b;">"Show my productivity stats"</p>
+                    <div class="command-box">
+                        <strong>◢ Stats</strong>
+                        <p>"Show my productivity stats"</p>
                     </div>
                 </div>
             </div>
 
-            <div style="margin-top: 3rem;">
-                <p style="color: #64748b; margin-bottom: 1rem;">
-                    ⭐ Open source on GitHub · MIT License · Built by <a href="https://x.com/ChainZenit" style="color: #6366f1; text-decoration: none;">@ChainZenit</a>
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid rgba(0, 212, 255, 0.2);">
+                <p style="color: #ffffff; opacity: 0.6; margin-bottom: 1rem; font-size: 0.9rem;">
+                    ⭐ Open Source on GitHub · MIT License · Built by <a href="https://x.com/ChainZenit" style="color: #ff6b35; text-decoration: none; font-weight: 700;">@ChainZenit</a>
                 </p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; font-size: 0.9rem;">
-                    <a href="https://x.com/ChainZenit" style="color: #6366f1; text-decoration: none;">
+                <div class="footer-links">
+                    <a href="https://x.com/ChainZenit" target="_blank">
                         🐦 Follow on X
                     </a>
-                    <span style="color: #cbd5e1;">·</span>
-                    <a href="https://github.com/google-ai-edge/gallery/discussions/categories/skills" style="color: #6366f1; text-decoration: none;">
+                    <span class="divider">·</span>
+                    <a href="https://github.com/google-ai-edge/gallery/discussions/categories/skills" target="_blank">
                         💬 Community
                     </a>
-                    <span style="color: #cbd5e1;">·</span>
-                    <a href="DEPLOYMENT.md" style="color: #6366f1; text-decoration: none;">
+                    <span class="divider">·</span>
+                    <a href="DEPLOYMENT.md">
                         🚀 Deploy
                     </a>
-                    <span style="color: #cbd5e1;">·</span>
-                    <a href="CONTRIBUTING.md" style="color: #6366f1; text-decoration: none;">
+                    <span class="divider">·</span>
+                    <a href="CONTRIBUTING.md">
                         🤝 Contribute
                     </a>
                 </div>
