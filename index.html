@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Flow - Demo & Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .demo-card h2 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .demo-card li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-card li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .iframe-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+
+        .iframe-container h2 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .device-frame {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 16px solid #1e293b;
+            border-radius: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+            display: block;
+        }
+
+        .action-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .action-section h2 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ec4899, #d946ef);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .device-frame {
+                border-width: 8px;
+            }
+
+            iframe {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Focus Flow</h1>
+            <p>Pomodoro Timer + Habit Tracker + Productivity Stats</p>
+            <p style="font-size: 1rem; margin-top: 0.5rem; opacity: 0.8;">
+                For Google AI Edge Gallery · Built with JavaScript + WebView
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-value">⏱️</div>
+                <div class="stat-label">Pomodoro Timer</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">✅</div>
+                <div class="stat-label">Habit Tracker</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">🎯</div>
+                <div class="stat-label">Daily Goals</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">📊</div>
+                <div class="stat-label">Statistics</div>
+            </div>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h2>⏱️ Pomodoro Timer</h2>
+                <p>Stay focused with customizable timer durations</p>
+                <ul>
+                    <li>15, 25, 45, 60 minute presets</li>
+                    <li>Beautiful circular progress</li>
+                    <li>Audio notifications</li>
+                    <li>Pause/resume support</li>
+                    <li>Focus & break modes</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>✅ Habit Tracker</h2>
+                <p>Build consistency with daily habit tracking</p>
+                <ul>
+                    <li>Track unlimited habits</li>
+                    <li>Visual streak badges (🔥)</li>
+                    <li>Daily check-off system</li>
+                    <li>Auto-reset at midnight</li>
+                    <li>Motivational feedback</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>🎯 Daily Goals</h2>
+                <p>Organize and complete your daily objectives</p>
+                <ul>
+                    <li>Add unlimited goals</li>
+                    <li>Visual progress bar</li>
+                    <li>Quick completion toggle</li>
+                    <li>Fresh start each day</li>
+                    <li>Achievement tracking</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>📊 Statistics</h2>
+                <p>Track your productivity over time</p>
+                <ul>
+                    <li>Total focus sessions</li>
+                    <li>Minutes tracked</li>
+                    <li>Day streak counter</li>
+                    <li>Weekly activity chart</li>
+                    <li>Goals completed</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>🎨 Beautiful Design</h2>
+                <p>Modern UI with smooth animations</p>
+                <ul>
+                    <li>Gradient color scheme</li>
+                    <li>Dark mode support</li>
+                    <li>Mobile-optimized</li>
+                    <li>Touch-friendly</li>
+                    <li>Smooth transitions</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>💾 Offline First</h2>
+                <p>All your data stays on your device</p>
+                <ul>
+                    <li>100% offline capable</li>
+                    <li>localStorage persistence</li>
+                    <li>No cloud sync needed</li>
+                    <li>Privacy focused</li>
+                    <li>Fast & responsive</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h2>🐦 Social Sharing</h2>
+                <p>Share your productivity wins</p>
+                <ul>
+                    <li>One-click X (Twitter) sharing</li>
+                    <li>Celebrate milestones</li>
+                    <li>Inspire your followers</li>
+                    <li>Support the creator</li>
+                    <li>Optional & non-intrusive</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="iframe-container">
+            <h2>🖥️ Live Demo</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #64748b;">
+                Try it right now in your browser!
+            </p>
+            <div class="device-frame">
+                <iframe src="assets/webview.html" title="Focus Flow Demo"></iframe>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <h2>🚀 Ready to Get Started?</h2>
+            <p style="color: #64748b; margin: 1rem 0;">
+                Install Focus Flow in Google AI Edge Gallery and boost your productivity!
+            </p>
+            <div class="button-group">
+                <a href="https://github.com/google-ai-edge/gallery" class="btn btn-primary" target="_blank">
+                    📱 Get AI Edge Gallery
+                </a>
+                <a href="README.md" class="btn btn-secondary">
+                    📖 Read Documentation
+                </a>
+                <a href="QUICKSTART.md" class="btn btn-success">
+                    ⚡ Quick Start Guide
+                </a>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+                <h3 style="color: #6366f1; margin-bottom: 1rem;">Installation Methods</h3>
+                <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                    <p style="margin-bottom: 0.5rem;"><strong>📡 From URL:</strong></p>
+                    <code style="background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 0.5rem; display: block; margin-bottom: 1rem;">
+                        https://YOUR_USERNAME.github.io/focus-flow/
+                    </code>
+
+                    <p style="margin-bottom: 0.5rem;"><strong>💾 Local Install:</strong></p>
+                    <code style="background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 0.5rem; display: block;">
+                        adb push focus-flow/ /sdcard/Download/
+                    </code>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+                <h3 style="color: #6366f1; margin-bottom: 1rem;">Voice Commands Examples</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; text-align: left;">
+                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
+                        <strong>🎯 Focus:</strong>
+                        <p style="margin-top: 0.5rem; color: #64748b;">"Start a 25 minute focus session"</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
+                        <strong>☕ Break:</strong>
+                        <p style="margin-top: 0.5rem; color: #64748b;">"I need a 5 minute break"</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
+                        <strong>✅ Habits:</strong>
+                        <p style="margin-top: 0.5rem; color: #64748b;">"Show my daily habits"</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
+                        <strong>📊 Stats:</strong>
+                        <p style="margin-top: 0.5rem; color: #64748b;">"Show my productivity stats"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <p style="color: #64748b; margin-bottom: 1rem;">
+                    ⭐ Open source on GitHub · MIT License · Built by <a href="https://x.com/ChainZenit" style="color: #6366f1; text-decoration: none;">@ChainZenit</a>
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; font-size: 0.9rem;">
+                    <a href="https://x.com/ChainZenit" style="color: #6366f1; text-decoration: none;">
+                        🐦 Follow on X
+                    </a>
+                    <span style="color: #cbd5e1;">·</span>
+                    <a href="https://github.com/google-ai-edge/gallery/discussions/categories/skills" style="color: #6366f1; text-decoration: none;">
+                        💬 Community
+                    </a>
+                    <span style="color: #cbd5e1;">·</span>
+                    <a href="DEPLOYMENT.md" style="color: #6366f1; text-decoration: none;">
+                        🚀 Deploy
+                    </a>
+                    <span style="color: #cbd5e1;">·</span>
+                    <a href="CONTRIBUTING.md" style="color: #6366f1; text-decoration: none;">
+                        🤝 Contribute
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

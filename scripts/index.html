@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Flow - Background Logic</title>
+</head>
+<body>
+    <script>
+        // This is the hidden background script that processes LLM requests
+        // and returns the webview with appropriate parameters
+        
+        window['ai_edge_gallery_get_result'] = async (data) => {
+            try {
+                // Parse incoming data from LLM
+                const jsonData = JSON.parse(data);
+                
+                // Default values
+                const action = jsonData.action || 'focus';
+                const duration = jsonData.duration || (action === 'break' ? 5 : 25);
+                const customMessage = jsonData.customMessage || '';
+                
+                // Validate action
+                const validActions = ['focus', 'break', 'stats', 'habits', 'goals'];
+                if (!validActions.includes(action)) {
+                    return JSON.stringify({
+                        error: `Invalid action: ${action}. Must be one of: ${validActions.join(', ')}`
+                    });
+                }
+                
+                // Validate duration
+                if (duration < 1 || duration > 180) {
+                    return JSON.stringify({
+                        error: 'Duration must be between 1 and 180 minutes'
+                    });
+                }
+                
+                // Build query parameters for the webview
+                const params = new URLSearchParams({
+                    action: action,
+                    duration: duration.toString(),
+                    message: customMessage,
+                    timestamp: Date.now().toString()
+                });
+                
+                // Generate appropriate result message
+                let resultMessage = '';
+                switch (action) {
+                    case 'focus':
+                        resultMessage = `🎯 Focus session started! Duration: ${duration} minutes`;
+                        if (customMessage) {
+                            resultMessage += `\nGoal: ${customMessage}`;
+                        }
+                        break;
+                    case 'break':
+                        resultMessage = `☕ Break time! Take ${duration} minutes to relax`;
+                        break;
+                    case 'stats':
+                        resultMessage = '📊 Here are your productivity statistics';
+                        break;
+                    case 'habits':
+                        resultMessage = '✅ Track your daily habits and build streaks';
+                        break;
+                    case 'goals':
+                        resultMessage = '🎯 Manage your daily goals';
+                        break;
+                }
+                
+                // Return webview with parameters
+                return JSON.stringify({
+                    result: resultMessage,
+                    webview: {
+                        url: `webview.html?${params.toString()}`,
+                        aspectRatio: 1.2
+                    }
+                });
+                
+            } catch (e) {
+                console.error('Error processing request:', e);
+                return JSON.stringify({
+                    error: `Failed to process request: ${e.message}`
+                });
+            }
+        };
+        
+        // Log that the script is loaded
+        console.log('Focus Flow background script loaded successfully');
+    </script>
+</body>
+</html>
