@@ -1075,6 +1075,7 @@
                     <button class="duration-btn active" onclick="setDuration(25)">25m</button>
                     <button class="duration-btn" onclick="setDuration(45)">45m</button>
                     <button class="duration-btn" onclick="setDuration(60)">60m</button>
+                    <button class="duration-btn" onclick="showCustomDurationModal()">⚙ Custom</button>
                 </div>
 
                 <div class="timer-circle">
@@ -1205,6 +1206,21 @@
             <button class="btn skip-btn" onclick="closeShareModal()" style="width: 100%;">
                 Maybe later
             </button>
+        </div>
+    </div>
+
+    <!-- Custom Duration Modal -->
+    <div id="custom-duration-modal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <h3 class="modal-title">⚙ Set Custom Timer</h3>
+            <p style="margin-bottom: 1rem; font-size: 0.9rem; opacity: 0.7;">
+                Enter duration in minutes (1-240)
+            </p>
+            <input type="number" id="custom-duration-input" placeholder="Enter minutes..." min="1" max="240" value="25" style="width: 100%; margin-bottom: 1rem;">
+            <div class="controls">
+                <button class="btn btn-primary" onclick="applyCustomDuration()">Set Timer</button>
+                <button class="btn btn-secondary" onclick="closeCustomDurationModal()">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -1654,6 +1670,36 @@
             document.getElementById('goal-modal').classList.remove('active');
         }
 
+        function showCustomDurationModal() {
+            const modal = document.getElementById('custom-duration-modal');
+            modal.classList.add('active');
+            document.getElementById('custom-duration-input').focus();
+        }
+
+        function closeCustomDurationModal() {
+            document.getElementById('custom-duration-modal').classList.remove('active');
+        }
+
+        function applyCustomDuration() {
+            const input = document.getElementById('custom-duration-input');
+            const minutes = parseInt(input.value);
+            
+            if (minutes && minutes >= 1 && minutes <= 240 && !timerState.isRunning) {
+                timerState.duration = minutes * 60;
+                timerState.remaining = minutes * 60;
+                updateTimerDisplay();
+                
+                // Remove active class from preset buttons
+                document.querySelectorAll('.duration-btn').forEach(btn => btn.classList.remove('active'));
+                
+                closeCustomDurationModal();
+            } else if (timerState.isRunning) {
+                alert('⏸️ Please pause the timer before changing duration');
+            } else {
+                alert('⚠️ Please enter a valid number between 1 and 240 minutes');
+            }
+        }
+
         function closeShareModal() {
             document.getElementById('share-modal').classList.remove('active');
             localStorage.setItem('focusFlowShared', 'skipped');
@@ -1691,6 +1737,10 @@
         
         document.getElementById('goal-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') addGoal();
+        });
+        
+        document.getElementById('custom-duration-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') applyCustomDuration();
         });
 
         // Data persistence
